@@ -2,40 +2,40 @@
 #include <stdlib.h>
 #include <string.h>
 
-int	check_valid_pairs(char *hexstr);
+char b16chars[] = "0123456789ABCDEF";
+
+void	htoi(char *hex_pair);
 
 int	main(int argc, char **argv)
 {
-	int	i;
-	int	total_len;
-	char	*base64_str;
-	
-	i = 0;
-	base64_str = (char *)malloc((sizeof(char) * total_len));
-	if (argc != 2)
-		return (0);
-	else if (!check_valid_pairs((char *) argv[1]))
-		return (0);
-		
-	total_len = strlen(argv[1]);
-	while (i < total_len)
-	{	
-		i += 2;
-	}
-	
-	printf("%d", argc);
+	htoi("4F");
 	return (0);	
 }
 
-int	hex_to_dec(char *hex)
+int	index_of(char *arr, char c)
 {
+	int i;
+
+	i = 0;
+	while (arr[1])
+	{
+		if (arr[i] == c)
+			return (i);
+		i++;
+	}
+	return (NULL);
 }
 
-int	dec_to_base64(int dec)
+void	htoi(char *hex_pair)
 {
-}
-
-int	check_valid_pairs(char *hexstr)
-{
-	return ((strlen(hexstr) % 2) == 0); 
+	int num;
+	
+	num = 0;
+	while (*hex_pair)
+	{
+		num = num << 4;
+		num += index_of(b16chars, *hex_pair);
+		hex_pair++;
+	}
+	printf("\n%d\n", num);
 }
