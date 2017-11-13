@@ -6,19 +6,15 @@ CFLAGS  = -Wall -Werror -Wextra
 
 .PHONY = all clean fclean re
 
-all: $(NAME)
+all: $(TARGET)
 
 clean:
-	@rm -rf ./bin
+	@rm -f *.o
 
-fclean:
+fclean: clean
 	@rm -f $(TARGET)
 
 re: fclean all
 
-$(NAME):
-	@mkdir -p ./bin
-	@$(CC) $(CFLAGS) -c $^
-	@ar rc $@ *.o
-	@ranlib $@
-	@mv *.o ./bin
+$(TARGET):
+	@$(CC) $(CFLAGS) $(SRC)
