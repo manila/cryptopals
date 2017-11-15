@@ -5,15 +5,15 @@
 char b16chars[] = "0123456789ABCDEF";
 char b64chars[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
-void	*Byte3asChar4(unsigned char *in, unsigned char *out)
+void	Byte3asChar4(unsigned char *in, unsigned char *out)
 {
 	out[0] = (unsigned char) b64chars[in[0] >> 2];
 	out[1] = (unsigned char) b64chars[((in[0] & 0x03) << 4) | ((in[1] & 0xf0) >> 4)];
-	out[2] = (unsigned char) ((in[1] & 0x0f) << 2) | ((in[2] & 0xc0) >> 6) > 0 ? b64chars[((in[1] & 0x0f) << 2) | ((in[2] & 0xc0) >> 6)] : '=';
+	out[2] = (unsigned char) (((in[1] & 0x0f) << 2) | ((in[2] & 0xc0) >> 6)) > 0 ? b64chars[((in[1] & 0x0f) << 2) | ((in[2] & 0xc0) >> 6)] : '=';
 	out[3] = (unsigned char) (in[2] & 0x3f) > 0 ? b64chars[(in[2] & 0x3f)] : '=';
 }
 
-void	*Char2asByte1(unsigned char *in, unsigned char *out)
+void	Char2asByte1(unsigned char *in, unsigned char *out)
 {
 	out[0] = (unsigned char) ((in[0] & 0x0f) << 4) | (in[1] & 0x0f); 
 }
@@ -40,7 +40,7 @@ char		*Base16toBase64(char *hexstr)
 {
 	int		paddedlen;
 	size_t		i;
-	unsigned char	*base64str;
+	char	*base64str;
 	
 	i = 0;
 	paddedlen = strlen(hexstr);
@@ -50,7 +50,7 @@ char		*Base16toBase64(char *hexstr)
 		paddedlen++;
 	}
 	
-	base64str = (unsigned char *) malloc(sizeof(unsigned char) * (4 * (paddedlen / 3)) + 1);
+	base64str = (char *) malloc(sizeof(char) * (4 * (paddedlen / 3)) + 1);
 
 	while (hexstr[i] && hexstr[i + 1])
 	{	
@@ -58,11 +58,4 @@ char		*Base16toBase64(char *hexstr)
 		i += 2;
 	}
 	return (base64str);
-}
-
-
-int	main(int argc, char **argv)
-{
-	Base16toBase64("4D616E");	
-	return (0);	
 }
