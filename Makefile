@@ -1,5 +1,6 @@
 TARGET	= cryptopals
 SRC	= main.c crypto.c
+INC	= inc/
 OBJ	= $(FILES:.c=.o)
 CC	= gcc
 CFLAGS  = -Wall -Werror -Wextra
@@ -17,4 +18,4 @@ fclean: clean
 re: fclean all
 
 $(TARGET):
-	@$(CC) $(CFLAGS) $(SRC)
+	@$(CC) $(CFLAGS) $(SRC) -I $(INC)
