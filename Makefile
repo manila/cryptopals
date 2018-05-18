@@ -1,6 +1,6 @@
 TARGET	= cryptopals
 SRC	= main.c crypto.c
-INC	= inc/
+INC	= include/
 OBJ	= $(FILES:.c=.o)
 CC	= gcc
 CFLAGS  = -Wall -Werror -Wextra
