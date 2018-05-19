@@ -1,5 +1,5 @@
 TARGET	= cryptopals
-SRC	= main.c crypto.c
+SRC	= set1/*.c
 INC	= include/
 OBJ	= $(FILES:.c=.o)
 CC	= gcc
@@ -14,6 +14,7 @@ clean:
 
 fclean: clean
 	@rm -f $(TARGET)
+	@rm -f a.out
 
 re: fclean all
 
