@@ -5,8 +5,9 @@ int main(void)
 	char *hex_str ="49276d206b696c6c696e6720796f757220627261696e206c696b65206120706f69736f6e6f7573206d757368726f6f6d";
 	char *dec_str = decode_hex(hex_str, strlen(hex_str));
 	char *b64_str = encode_b64(dec_str, strlen(dec_str));
+	char *hex_enc = encode_hex("Mani", 4);
 
-	printf("%s", b64_str);
+	printf("%s\n%s", b64_str, hex_enc);
 	
 	free(dec_str);
 	free(b64_str);

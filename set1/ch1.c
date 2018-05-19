@@ -1,10 +1,11 @@
 #include "b64.h"
 
+char *BASE16_CHAR_ARR = "0123456789abcdef";
 char *BASE64_CHAR_ARR = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
 char  	*decode_hex(char *hex_str, size_t str_len)
 {
-	unsigned int i = 0;
+	unsigned int i;
 	char *dec = (char *) malloc(sizeof(char) * (str_len / 2));
 
 	for (i = 0; i < str_len; i++)
@@ -13,6 +14,24 @@ char  	*decode_hex(char *hex_str, size_t str_len)
 	}
 
 	return (dec);
+}
+
+char	*encode_hex(char *str, size_t str_len)
+{
+	unsigned int i;
+	
+	char *hex_str = (char *) malloc(sizeof(char) * (str_len * 2) + 1);	
+	
+	for (i = 0; i < str_len; i++)
+	{
+		
+		hex_str[(i * 2) + 0] = BASE16_CHAR_ARR[str[i] >> 4]; 
+		hex_str[(i * 2) + 1] = BASE16_CHAR_ARR[str[i] & 0x0f];
+	}
+
+	hex_str[i * 2 + 1] = '\0';	
+
+	return (hex_str);
 }
 
 char	*encode_b64(char *in, size_t len)
