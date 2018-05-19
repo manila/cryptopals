@@ -2,7 +2,7 @@
 
 char *BASE64_CHAR_ARR = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
-char  	*hex_to_dec(char *hex_str, size_t str_len)
+char  	*decode_hex(char *hex_str, size_t str_len)
 {
 	unsigned int i = 0;
 	char *dec = (char *) malloc(sizeof(char) * (str_len / 2));
@@ -15,7 +15,7 @@ char  	*hex_to_dec(char *hex_str, size_t str_len)
 	return (dec);
 }
 
-char	*dec_to_b64(char *dec, size_t len)
+char	*encode_b64(char *in, size_t len)
 {
 	unsigned int i = 0;
 	unsigned int j = 0;
@@ -30,10 +30,10 @@ char	*dec_to_b64(char *dec, size_t len)
 
 		b64 = (char *) realloc(b64, size * sizeof(char));
 
-		buf[0] = ((dec[i + 0] & 0xfc) >> 2);
-		buf[1] = ((dec[i + 0] & 0x03) << 4) | ((dec[i + 1] & 0xf0) >> 4); 
-		buf[2] = ((dec[i + 1] & 0x0f) << 2) | ((dec[i + 2] & 0xc0) >> 6);
-		buf[3] = ((dec[i + 2] & 0x3f));
+		buf[0] = ((in[i + 0] & 0xfc) >> 2);
+		buf[1] = ((in[i + 0] & 0x03) << 4) | ((in[i + 1] & 0xf0) >> 4); 
+		buf[2] = ((in[i + 1] & 0x0f) << 2) | ((in[i + 2] & 0xc0) >> 6);
+		buf[3] = ((in[i + 2] & 0x3f));
 
 		while (j < 4)
 		{
@@ -60,20 +60,4 @@ char	*dec_to_b64(char *dec, size_t len)
 	b64[size] = '\0';
 
 	return (b64);
-}
-
-int	main(void)
-{
-
-	char *in = "4D61";
-
-	char *dec = hex_to_dec(in, strlen(in));
-	char *b64 = dec_to_b64(dec, strlen(in) / 2);
-
-	printf("%s", b64);	
-
-	free(dec);
-	free(b64);
-	
-	return (0);
 }

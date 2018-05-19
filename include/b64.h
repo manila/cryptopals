@@ -5,10 +5,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void	Byte3asChar4(char *in, char *out);
-void	Char2asByte1(char *in, char *out);
-char	index_of(char *arr, char c);
-char	Base16PairToChar(char *hex_pair);
-char	*Base16toBase64(char *hexstr);
+extern char *B64_CHAR_ARR;
+
+char *decode_hex(char *hex_str, size_t len);
+char *encode_b64(char *in, size_t len); 
 
 #endif
