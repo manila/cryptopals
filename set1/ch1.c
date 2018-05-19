@@ -6,14 +6,14 @@ char *BASE64_CHAR_ARR = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz012
 char  	*decode_hex(char *hex_str, size_t str_len)
 {
 	unsigned int i;
-	char *dec = (char *) malloc(sizeof(char) * (str_len / 2));
+	char *out = (char *) malloc(sizeof(char) * (str_len / 2));
 
 	for (i = 0; i < str_len; i++)
 	{
-		sscanf(hex_str + (i * 2), "%2hhx", &dec[i]);
+		sscanf(hex_str + (i * 2), "%2hhx", &out[i]);
 	}
 
-	return (dec);
+	return (out);
 }
 
 char	*encode_hex(char *str, size_t str_len)

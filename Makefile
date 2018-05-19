@@ -3,7 +3,7 @@ SRC	= set1/*.c
 INC	= include/
 OBJ	= $(FILES:.c=.o)
 CC	= gcc
-CFLAGS  = -Wall -Werror -Wextra
+CFLAGS  = -Wall -Wextra
 
 .PHONY = all clean fclean re
 
