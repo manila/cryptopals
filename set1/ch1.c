@@ -20,11 +20,11 @@ char	*dec_to_b64(char *dec, size_t len)
 	unsigned int i = 0;
 	unsigned int j = 0;
 	unsigned int z = 0;
-	size_t size = 1;
+	size_t size = 0;
 	unsigned char buf[4];
-	char *b64 = (char *) malloc(1);
-	
-	for (i = 0; i < len; i+= 3)
+	char *b64 = (char *) malloc(size);
+
+	for (i = 0; i < len; i += 3)
 	{
 		size += 4;
 
@@ -37,26 +37,27 @@ char	*dec_to_b64(char *dec, size_t len)
 
 		while (j < 4)
 		{
-			b64[z++] = BASE64_CHAR_ARR[buf[j]];	
-			j++;
+			b64[z++] = BASE64_CHAR_ARR[buf[j++]];	
 		}
 
 		j = 0;
 	}
-		
-	
-	if (i > len)
+
+	if ((i - len) > 0)
 	{
-		size += (i - len);
-		i = (i - len);
+		b64 = (char *) realloc(b64, size * sizeof(char));
+		
+		z -= (i - len);
 
-		b64 = (char *) realloc(b64, size + (sizeof(char)));
-
-		while (i--)
-			b64[z++] = '=';			
+		while (i > len)
+		{
+			b64[z++] = '=';
+			i--;
+		}
 	}
+	
 
-	b64[z] = '\0';
+	b64[size] = '\0';
 
 	return (b64);
 }
