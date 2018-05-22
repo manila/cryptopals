@@ -8,7 +8,7 @@ char  	*decode_hex(char *hex_str, size_t str_len)
 	unsigned int i;
 	char *out = (char *) malloc(sizeof(char) * (str_len / 2));
 
-	for (i = 0; i < str_len; i++)
+	for (i = 0; i < (str_len / 2); i++)
 	{
 		sscanf(hex_str + (i * 2), "%2hhx", &out[i]);
 	}
