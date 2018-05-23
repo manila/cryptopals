@@ -1,4 +1,4 @@
-#include "b64.h"
+#include "pals.h"
 
 int main(void)
 {
@@ -25,14 +25,9 @@ int main(void)
 
 	char *ch3_hex = "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736";
 	char *ch3_str = decode_hex(ch3_hex, 68);
-	char **d_str = decrypt_string(ch3_str, 34);
+	dstr_list_t *d_str = decrypt_string(ch3_str, 34);
 
-	int i;
-	
-	for (i = 0; i < 52; i++)
-	{
-	  printf("\nChallenge 3:%s \n", d_str[i]); 
-	}
+	printf("\nChallenge 3: \n     Decrypted Text: %s\n     Key: %c\n", d_str->decrypted, d_str->key); 	
 
 	return (0);
 }
