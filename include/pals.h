@@ -24,6 +24,7 @@ typedef struct dstr_list
 	struct dstr_list *next;
 } dstr_list_t;
 
-dstr_list_t *decrypt_string(char *str, size_t str_len);
+void		free_dstr_list(dstr_list_t *list);
+dstr_list_t 	*decrypt_string(char *str, size_t str_len);
 
 #endif

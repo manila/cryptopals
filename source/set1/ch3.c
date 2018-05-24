@@ -7,7 +7,6 @@ size_t VOWEL_CHARS_COUNT = 10;
 
 int count_char(char *str, char c, size_t str_len);
 int count_chars(char *str, size_t str_len, char *chars, size_t chars_len);
-void append_to_list(dstr_list_t *list, dstr_list_t *node);
 dstr_list_t *sort_list_by_score(dstr_list_t *list);
 dstr_list_t *get_best_decryption(dstr_list_t *list);
 
@@ -104,8 +103,8 @@ int count_char(char *str, char c, size_t str_len)
 
 int count_chars(char *str, size_t str_len, char *chars, size_t chars_len)
 {
-	int i;
-	int j;
+	unsigned int i;
+	unsigned int j;
 	int count = 0;
 
 	for (i = 0; i < chars_len; i++)
@@ -154,4 +153,18 @@ dstr_list_t *sort_list_by_score(dstr_list_t *list)
 {
 	dstr_list_t *head = get_best_decryption(list);
 	dstr_list_t *tmp = NULL;	
+}
+
+void	free_dstr_list (dstr_list_t *list)
+{
+	dstr_list_t *tmp = list->next;
+
+	while (list->next != NULL)
+	{
+		tmp = list->next;
+		free(list->decrypted);
+		free(list->encrypted);
+		free(list);
+		list = tmp;
+	}
 }

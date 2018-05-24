@@ -1,5 +1,6 @@
 TARGET	= cryptopals
-SRC	= set1/*.c
+SRC	= $(wildcard source/set1/*.c)
+COM	= $(wildcard common/*.o)
 INC	= include/
 OBJ	= $(FILES:.c=.o)
 CC	= gcc
@@ -19,4 +20,4 @@ fclean: clean
 re: fclean all
 
 $(TARGET):
-	@$(CC) $(CFLAGS) $(SRC) -I $(INC)
+	@$(CC) $(CFLAGS) $(SRC) $(COM) -I $(INC)

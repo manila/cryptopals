@@ -29,5 +29,7 @@ int main(void)
 
 	printf("\nChallenge 3: \n     Decrypted Text: %s\n     Key: %c\n", d_str->decrypted, d_str->key); 	
 
+	free_dstr_list(d_str);
+
 	return (0);
 }
