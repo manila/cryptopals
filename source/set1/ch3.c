@@ -28,8 +28,9 @@ char *xor_string_char(char *str, char c, size_t str_len)
 return a list sorted by highest scoring decryption first
 */
 
-dstr_list_t *decrypt_string(char *str, size_t str_len)
+char  *decrypt_string(char *str, size_t str_len)
 {
+	char *decrypted_text;
 	unsigned int i;
 
 	dstr_list_t *head = NULL;
@@ -64,7 +65,15 @@ dstr_list_t *decrypt_string(char *str, size_t str_len)
 		}
 	}
 
-	return (get_best_decryption(head));
+	decrypted_text = (char *) malloc(sizeof(char) * str_len + 1);
+
+	memcpy(decrypted_text, get_best_decryption(head)->decrypted, str_len);
+
+	free_dstr_list(head);
+
+	decrypted_text[str_len] = '\0';
+
+	return (decrypted_text);
 }
 
 int printable_char_count(char *str, size_t str_len)
@@ -123,36 +132,21 @@ int count_chars(char *str, size_t str_len, char *chars, size_t chars_len)
 
 dstr_list_t *get_best_decryption(dstr_list_t *list)
 {
-	dstr_list_t *tmp = NULL;
-	dstr_list_t *tmp_next = NULL;
 	dstr_list_t *best = NULL;
-	dstr_list_t *head = NULL;
 
-	head = list;
 	best = list;
 
 	while (list->next != NULL)
 	{
 		if (list->score > best->score)
 		{
-			tmp = best;	
 			best = list;
-			tmp_next = best->next;
-			best->next = list->next;
-			list = tmp;
-			list->next = tmp_next;
 		}
 
 		list = list->next;
 	}
 
 	return (best);
-}
-
-dstr_list_t *sort_list_by_score(dstr_list_t *list)
-{
-	dstr_list_t *head = get_best_decryption(list);
-	dstr_list_t *tmp = NULL;	
 }
 
 void	free_dstr_list (dstr_list_t *list)
