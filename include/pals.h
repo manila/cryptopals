@@ -2,6 +2,12 @@
 # define PALS_H
 
 # include <stdio.h>
+# include <unistd.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <fcntl.h>
+# include <string.h>
+# include <errno.h> 
 
 # include "b64.h"
 # include "xor.h"
@@ -26,6 +32,6 @@ typedef struct dstr_list
 
 void	free_dstr_list(dstr_list_t *list);
 char 	*decrypt_string(char *str, size_t str_len);
-
+char	**read_strings_from_file(int fd);
 
 #endif
