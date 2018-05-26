@@ -1,7 +1,7 @@
 TARGET	= cryptopals
 SRC	= $(wildcard source/set1/*.c)
-COM	= $(wildcard common/*.o)
-INC	= include/
+COM	= $(wildcard common/*.c)
+INC	= ./include/
 OBJ	= $(FILES:.c=.o)
 CC	= gcc
 CFLAGS  = -Wall -Wextra
