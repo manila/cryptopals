@@ -9,6 +9,7 @@ int count_char(char *str, char c, size_t str_len);
 int count_chars(char *str, size_t str_len, char *chars, size_t chars_len);
 dstr_list_t *sort_list_by_score(dstr_list_t *list);
 dstr_list_t *get_best_decryption(dstr_list_t *list);
+dstr_list_t *create_list_item(dstr_list_t *head);
 
 char *xor_string_char(char *str, char c, size_t str_len)
 {
@@ -38,8 +39,7 @@ char  *decrypt_string(char *str, size_t str_len)
 
 	for (i = 0; i < 52; i++)
 	{	
-		dstr_list_t *d_str;
-		d_str = (dstr_list_t *) malloc(sizeof(dstr_list_t));
+		dstr_list_t *d_str = create_list_item(head);
 
 		d_str->encrypted = (char *) malloc(sizeof(char) * str_len + 1);
 		d_str->encrypted = str;
@@ -161,4 +161,30 @@ void	free_dstr_list (dstr_list_t *list)
 		free(list);
 		list = tmp;
 	}
+}
+
+dstr_list_t *create_list_item(dstr_list_t *head)
+{
+	dstr_list_t *item;
+
+	item = (dstr_list_t *) malloc(sizeof(dstr_list_t));
+
+	if (item == NULL)
+	{
+		printf("Can't allocate memory for new list item");
+		
+		return (item);
+	}
+	
+	if (head != NULL)
+	{
+		while (head->next != NULL)
+		{
+			head = head->next;
+		}
+
+		head->next = item;
+	}
+
+	return (item);
 }

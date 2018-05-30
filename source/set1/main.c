@@ -43,11 +43,9 @@ int main(int argc, char **argv)
 	{
 		fd = open(argv[1], O_RDONLY);
 
-		char **strs = read_strings_from_file(fd);
+		dstr_list_t *d_list = read_strings_from_file(fd);
 
-		printf("%s", strs[1]);
-
-		free(strs);
+		printf("%s \n", d_list->hex);
 
 		close(fd);
 	}	

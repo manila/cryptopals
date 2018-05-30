@@ -22,6 +22,7 @@ typedef struct dstr_list
 	char *encrypted;
 	char *decrypted;
 	char key;
+	char hex[61];
 	int space_count;
 	int vowel_count;
 	int alpha_count;
@@ -30,8 +31,9 @@ typedef struct dstr_list
 	struct dstr_list *next;
 } dstr_list_t;
 
-void	free_dstr_list(dstr_list_t *list);
-char 	*decrypt_string(char *str, size_t str_len);
-char	**read_strings_from_file(int fd);
+void		free_dstr_list(dstr_list_t *list);
+char 		*decrypt_string(char *str, size_t str_len);
+dstr_list_t	*read_strings_from_file(int fd);
+dstr_list_t	*create_list_item(dstr_list_t *head);
 
 #endif
