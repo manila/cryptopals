@@ -35,5 +35,7 @@ void		free_dstr_list(dstr_list_t *list);
 char 		*decrypt_string(char *str, size_t str_len);
 dstr_list_t	*read_strings_from_file(int fd);
 dstr_list_t	*create_list_item(dstr_list_t *head);
+dstr_list_t	*get_best_decryption(dstr_list_t *head);
+int		score_string(char *str, size_t str_len);
 
 #endif

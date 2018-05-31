@@ -33,21 +33,36 @@ int main(int argc, char **argv)
 	char *ch3_str = decode_hex(ch3_hex, 68);
 	char *d_str = decrypt_string(ch3_str, 34);
 
-	printf("\nChallenge 3: Decrypted Text: %s\n", d_str); 	
+	printf("\nChallenge 3: Decrypted Text: %s score: %d\n", d_str, score_string(d_str, 34)); 	
 
 	free(d_str);
-
-	int fd;
+	free(ch3_str);
 
 	if (2 == argc)
 	{
-		fd = open(argv[1], O_RDONLY);
+		int ch4_fd;
 
-		dstr_list_t *d_list = read_strings_from_file(fd);
+		ch4_fd = open(argv[1], O_RDONLY);
 
-		printf("%s \n", d_list->hex);
+		dstr_list_t *d_list = read_strings_from_file(ch4_fd);
+		dstr_list_t *d_list_head = (dstr_list_t *) d_list;
 
-		close(fd);
+		while (d_list->next != NULL)
+		{
+			char *ch4_str = decode_hex(d_list->hex, d_list->length);
+
+			d_list->decrypted = decrypt_string(ch4_str, d_list->length / 2);
+			d_list->score = score_string(d_list->decrypted, d_list->length / 2);
+	
+			free(ch4_str);
+
+
+			d_list = d_list->next;
+		}
+
+		printf("\nChallenge 4: Decrypted Text: %s\n", get_best_decryption(d_list_head)->decrypted);
+
+		close(ch4_fd);
 	}	
 
 	return (0);

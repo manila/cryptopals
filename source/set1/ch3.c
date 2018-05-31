@@ -1,12 +1,17 @@
 #include "pals.h"
 
-char *ALPHA_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-size_t ALPHA_CHARS_COUNT = 52;
+char *ALPHA_CHARS = " ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+size_t ALPHA_CHARS_COUNT = 53;
 char *VOWEL_CHARS = "aAeEiIoOuU";
 size_t VOWEL_CHARS_COUNT = 10;
+char *PUNCT_CHARS = ".,?!'";
+size_t PUNCT_CHARS_COUNT = 5;
+char *TOP10_CHARS = "eEtTaAoOiInNsShHrRdD";
+size_t TOP10_CHARS_COUNT = 20;
 
 int count_char(char *str, char c, size_t str_len);
 int count_chars(char *str, size_t str_len, char *chars, size_t chars_len);
+int score_string(char *str, size_t str_len);
 dstr_list_t *sort_list_by_score(dstr_list_t *list);
 dstr_list_t *get_best_decryption(dstr_list_t *list);
 dstr_list_t *create_list_item(dstr_list_t *head);
@@ -31,49 +36,33 @@ return a list sorted by highest scoring decryption first
 
 char  *decrypt_string(char *str, size_t str_len)
 {
-	char *decrypted_text;
+	char *decrypted_best = (char *) malloc(sizeof(char) * str_len + 1);
+	char *decrypted_temp = (char *) malloc(sizeof(char) * str_len + 1);
+	int  score_temp = 0;
+	int  score_best = 0;
+
 	unsigned int i;
 
-	dstr_list_t *head = NULL;
-	dstr_list_t *d_list = NULL;
-
-	for (i = 0; i < 52; i++)
+	for (i = 32; i < 127; i++)
 	{	
-		dstr_list_t *d_str = create_list_item(head);
+		decrypted_temp[str_len] = '\0';
+		decrypted_temp = xor_string_char(str, (char) i, str_len);
 
-		d_str->encrypted = (char *) malloc(sizeof(char) * str_len + 1);
-		d_str->encrypted = str;
+		score_temp = score_string(decrypted_temp, str_len);
 
-		d_str->decrypted = xor_string_char(str, ALPHA_CHARS[i], str_len);
-
-		d_str->key = ALPHA_CHARS[i];
-		d_str->length = str_len;
-		d_str->space_count = count_char(d_str->decrypted, ' ', str_len);
-		d_str->alpha_count = count_chars(d_str->decrypted, str_len, ALPHA_CHARS, ALPHA_CHARS_COUNT);
-		d_str->vowel_count = count_chars(d_str->decrypted, str_len, VOWEL_CHARS, VOWEL_CHARS_COUNT);
-
-		d_str->score = d_str->space_count + d_str->alpha_count + d_str->vowel_count;		
-
-		if (d_list == NULL)
+		if (score_temp > score_best)
 		{
-			head = d_list = d_str;
-		}
-		else
-		{
-			d_list->next = d_str;
-			d_list = d_list->next;
-		}
+			score_best = score_temp;
+
+			memcpy(decrypted_best, decrypted_temp, str_len);
+		}		
+
+		free(decrypted_temp);
 	}
 
-	decrypted_text = (char *) malloc(sizeof(char) * str_len + 1);
+	decrypted_best[str_len] = '\0';
 
-	memcpy(decrypted_text, get_best_decryption(head)->decrypted, str_len);
-
-	free_dstr_list(head);
-
-	decrypted_text[str_len] = '\0';
-
-	return (decrypted_text);
+	return (decrypted_best);
 }
 
 int printable_char_count(char *str, size_t str_len)
@@ -130,6 +119,26 @@ int count_chars(char *str, size_t str_len, char *chars, size_t chars_len)
 	return (count);
 }
 
+int score_string(char *str, size_t str_len)
+{
+	int vowel_count;
+	int space_count;
+	int top10_count;
+	int alpha_count;
+	int punct_count;	
+	int print_count;
+
+	space_count = count_char(str, ' ', str_len);
+	vowel_count = count_chars(str, str_len, VOWEL_CHARS, VOWEL_CHARS_COUNT);
+	alpha_count = count_chars(str, str_len, ALPHA_CHARS, ALPHA_CHARS_COUNT);
+	top10_count = count_chars(str, str_len, TOP10_CHARS, TOP10_CHARS_COUNT);
+	punct_count = count_chars(str, str_len, PUNCT_CHARS, PUNCT_CHARS_COUNT);
+	print_count = printable_char_count(str, str_len);
+
+	return (space_count + vowel_count + alpha_count + top10_count + punct_count + print_count);
+}
+
+
 dstr_list_t *get_best_decryption(dstr_list_t *list)
 {
 	dstr_list_t *best = NULL;
@@ -178,12 +187,19 @@ dstr_list_t *create_list_item(dstr_list_t *head)
 	
 	if (head != NULL)
 	{
-		while (head->next != NULL)
+		if (head->next == NULL)
 		{
-			head = head->next;
+			head->next = item;
 		}
+		else
+		{
+			while (head->next != NULL)
+			{
+				head = head->next;
+			}
 
-		head->next = item;
+			head->next = item;
+		}
 	}
 
 	return (item);
