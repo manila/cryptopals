@@ -38,4 +38,6 @@ dstr_list_t	*create_list_item(dstr_list_t *head);
 dstr_list_t	*get_best_decryption(dstr_list_t *head);
 int		score_string(char *str, size_t str_len);
 
+void	set_1_challenge_5(void);
+
 #endif

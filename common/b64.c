@@ -41,7 +41,7 @@ char	*encode_b64(char *in, size_t len)
 	unsigned int z = 0;
 	size_t size = 0;
 	unsigned char buf[4];
-	char *b64 = (char *) malloc(size);
+	char *b64 = NULL;
 
 	for (i = 0; i < len; i += 3)
 	{

@@ -65,5 +65,7 @@ int main(int argc, char **argv)
 		close(ch4_fd);
 	}	
 
+	set_1_challenge_5();
+
 	return (0);
 }
