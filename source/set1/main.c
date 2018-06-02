@@ -38,7 +38,7 @@ int main(int argc, char **argv)
 	free(d_str);
 	free(ch3_str);
 
-	if (2 == argc)
+	if (3 == argc)
 	{
 		int ch4_fd;
 
@@ -66,6 +66,30 @@ int main(int argc, char **argv)
 	}	
 
 	set_1_challenge_5();
-	
+
+	if (2 == argc)
+	{
+		char *buffer[256];
+		char *b64_file = NULL;
+		int ch6_fd;
+		int total_size = 0;
+		int bytes_read = 0;
+
+		ch6_fd = open(argv[1], O_RDONLY);
+
+		while (bytes_read = read(ch6_fd, &buffer, 256))
+		{
+			b64_file = (char *) realloc(b64_file, sizeof(char) * (total_size + bytes_read));
+		
+			memcpy(&b64_file[total_size], buffer, bytes_read);
+			
+			total_size += bytes_read;
+		}
+		
+		char *ch6_data = decode_b64(b64_file, total_size);
+
+		printf("\nkeysize: %d\n", detect_keysize(ch6_data, (total_size / 3) * 4));
+	}
+
 	return (0);
 }
