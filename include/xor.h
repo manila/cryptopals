@@ -4,6 +4,13 @@
 # include <stdlib.h>
 # include <string.h>
 
+typedef struct cipher_struct
+{
+	char *plaintext;
+	char key;
+} cipher_struct_t;
+
+cipher_struct_t *decrypt_caesar(char *str, size_t str_len);
 char *xor_string(char *str, char *key, size_t str_len, size_t key_len);
 int ham_char(char c1, char c2);
 int ham_string(char *str1, char *str2, size_t str_len);

@@ -31,7 +31,7 @@ int main(int argc, char **argv)
 
 	char *ch3_hex = "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736";
 	char *ch3_str = decode_hex(ch3_hex, 68);
-	char *d_str = decrypt_string(ch3_str, 34);
+	char *d_str = decrypt_caesar(ch3_str, 34)->plaintext;
 
 	printf("\nChallenge 3: Decrypted Text: %s score: %d\n", d_str, score_string(d_str, 34)); 	
 
@@ -51,7 +51,7 @@ int main(int argc, char **argv)
 		{
 			char *ch4_str = decode_hex(d_list->hex, d_list->length);
 
-			d_list->decrypted = decrypt_string(ch4_str, d_list->length / 2);
+			d_list->decrypted = decrypt_caesar(ch4_str, d_list->length / 2)->plaintext;
 			d_list->score = score_string(d_list->decrypted, d_list->length / 2);
 	
 			free(ch4_str);

@@ -1,4 +1,5 @@
 #include "pals.h"
+#include "xor.h"
 
 char *ALPHA_CHARS = " ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 size_t ALPHA_CHARS_COUNT = 53;
@@ -34,35 +35,37 @@ char *xor_string_char(char *str, char c, size_t str_len)
 return a list sorted by highest scoring decryption first
 */
 
-char  *decrypt_string(char *str, size_t str_len)
+cipher_struct_t  *decrypt_caesar(char *str, size_t str_len)
 {
-	char *decrypted_best = (char *) malloc(sizeof(char) * str_len + 1);
+	cipher_struct_t *cipher_data = (cipher_struct_t *) malloc(sizeof(cipher_struct_t));
+	cipher_data->plaintext = (char *) malloc(sizeof(char) * str_len + 1);
+
 	char *decrypted_temp = (char *) malloc(sizeof(char) * str_len + 1);
 	int  score_temp = 0;
 	int  score_best = 0;
 
-	unsigned int i;
+	unsigned char key;
 
-	for (i = 32; i < 127; i++)
+	for (key = 32; key < 127; key++)
 	{	
 		decrypted_temp[str_len] = '\0';
-		decrypted_temp = xor_string_char(str, (char) i, str_len);
+		decrypted_temp = xor_string_char(str, (char) key, str_len);
 
 		score_temp = score_string(decrypted_temp, str_len);
 
 		if (score_temp > score_best)
 		{
 			score_best = score_temp;
-
-			memcpy(decrypted_best, decrypted_temp, str_len);
+			cipher_data->key = (char) key;
+			memcpy(cipher_data->plaintext, decrypted_temp, str_len);
 		}		
 
 		free(decrypted_temp);
 	}
 
-	decrypted_best[str_len] = '\0';
+	cipher_data->plaintext[str_len] = '\0';
 
-	return (decrypted_best);
+	return (cipher_data);
 }
 
 int printable_char_count(char *str, size_t str_len)
