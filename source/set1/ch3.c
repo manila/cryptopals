@@ -60,8 +60,9 @@ cipher_struct_t  *decrypt_caesar(char *str, size_t str_len)
 			memcpy(cipher_data->plaintext, decrypted_temp, str_len);
 		}		
 
-		free(decrypted_temp);
 	}
+
+	free(decrypted_temp);
 
 	cipher_data->plaintext[str_len] = '\0';
 

@@ -31,12 +31,12 @@ int main(int argc, char **argv)
 
 	char *ch3_hex = "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736";
 	char *ch3_str = decode_hex(ch3_hex, 68);
-	char *d_str = decrypt_caesar(ch3_str, 34)->plaintext;
+	cipher_struct_t *d_str = decrypt_caesar(ch3_str, 34);
 
-	printf("\nChallenge 3: Decrypted Text: %s score: %d\n", d_str, score_string(d_str, 34)); 	
+	printf("\nChallenge 3: Decrypted Text: %s score: %d key: %c\n", d_str->plaintext, score_string(d_str, 34), d_str->key); 	
 
 	free(d_str);
-	free(ch3_str);
+	//free(ch3_str);
 
 	if (3 == argc)
 	{
@@ -89,6 +89,8 @@ int main(int argc, char **argv)
 		char *ch6_data = decode_b64(b64_file, total_size);
 
 		printf("\nkeysize: %d\n", detect_keysize(ch6_data, (total_size / 3) * 4));
+		printf("\nkey: %s\n", detect_key(ch6_data, 5, total_size));
+		printf("\nTest:%s\n", detect_key(ch3_str, 1, 34));
 	}
 
 	return (0);

@@ -62,6 +62,26 @@ char *str_nth_block(char *str, int nth_block, int block_len, size_t str_len)
 	return (str_block);
 }
 
+char **transpose_str(char *str, int block_count, int str_len)
+{
+	unsigned int i;
+	char **cipher_block = (char **) malloc(sizeof(char *) * block_count);	
+	char **array_start = cipher_block;
+
+	for (i = 0; i < block_count; i++)
+	{
+		cipher_block[i] = (char *) malloc(sizeof(char) * (str_len / block_count) + 1);
+		cipher_block[str_len / block_count] = '\0';
+	}
+
+	for (i = 0; i < str_len; i++)
+	{
+		cipher_block[i % block_count][i / block_count] = str[i];
+	}
+
+	return (array_start);
+}
+
 int detect_keysize(char *str, size_t str_len)
 {
 	int keysize;
@@ -113,17 +133,19 @@ int detect_keysize(char *str, size_t str_len)
 
 char *detect_key(char *str, size_t keysize, size_t str_len)
 {
+	int  block_len = str_len / keysize;
 	char *key;
-	char **cipher_block;
 	unsigned int i;
 
 	key = (char *) malloc(sizeof(char) * keysize + 1);
-	cipher_block = (char **) malloc(sizeof(char *) * keysize);
+
+	char **cipher_block = transpose_str(str, keysize, str_len);
 
 	for (i = 0; i < keysize; i++)
 	{
 		cipher_struct_t *cipher_data = decrypt_caesar(cipher_block[i], str_len / keysize);
 		key[i] = cipher_data->key;
+		printf("\n Decrypted: %s \n", cipher_data->plaintext);
 	}
 
 	key[keysize] = '\0';	
